@@ -13,7 +13,5 @@ final class DetailsViewController: UIViewController {
         super.viewDidLoad()
         
     }
-
-
 }
 
