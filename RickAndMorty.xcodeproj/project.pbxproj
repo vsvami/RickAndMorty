@@ -13,6 +13,9 @@
 		641A8A4B2BA7401100D91241 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 641A8A4A2BA7401100D91241 /* Base */; };
 		641A8A4D2BA7401300D91241 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 641A8A4C2BA7401300D91241 /* Assets.xcassets */; };
 		641A8A502BA7401300D91241 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 641A8A4F2BA7401300D91241 /* Base */; };
+		641A8A5D2BA748E700D91241 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641A8A5C2BA748E700D91241 /* MainViewController.swift */; };
+		641A8A5F2BA74C3B00D91241 /* CharacterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641A8A5E2BA74C3B00D91241 /* CharacterCell.swift */; };
+		64D559D42BA7799400BD1475 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D559D32BA7799400BD1475 /* Character.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		641A8A4C2BA7401300D91241 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		641A8A4F2BA7401300D91241 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		641A8A512BA7401300D91241 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		641A8A5C2BA748E700D91241 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		641A8A5E2BA74C3B00D91241 /* CharacterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterCell.swift; sourceTree = "<group>"; };
+		64D559D32BA7799400BD1475 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,11 +62,11 @@
 		641A8A422BA7401100D91241 /* RickAndMorty */ = {
 			isa = PBXGroup;
 			children = (
+				641A8A582BA7407000D91241 /* ViewControllers */,
+				641A8A592BA7407D00D91241 /* Storyboards */,
+				641A8A572BA7402A00D91241 /* Models */,
 				641A8A5B2BA7459900D91241 /* Views */,
 				641A8A5A2BA740A400D91241 /* App */,
-				641A8A592BA7407D00D91241 /* Storyboards */,
-				641A8A582BA7407000D91241 /* ViewControllers */,
-				641A8A572BA7402A00D91241 /* Models */,
 				641A8A4C2BA7401300D91241 /* Assets.xcassets */,
 			);
 			path = RickAndMorty;
@@ -69,6 +75,7 @@
 		641A8A572BA7402A00D91241 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				64D559D32BA7799400BD1475 /* Character.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -77,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				641A8A472BA7401100D91241 /* DetailsViewController.swift */,
+				641A8A5C2BA748E700D91241 /* MainViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -103,6 +111,7 @@
 		641A8A5B2BA7459900D91241 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				641A8A5E2BA74C3B00D91241 /* CharacterCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -181,6 +190,9 @@
 				641A8A482BA7401100D91241 /* DetailsViewController.swift in Sources */,
 				641A8A442BA7401100D91241 /* AppDelegate.swift in Sources */,
 				641A8A462BA7401100D91241 /* SceneDelegate.swift in Sources */,
+				64D559D42BA7799400BD1475 /* Character.swift in Sources */,
+				641A8A5D2BA748E700D91241 /* MainViewController.swift in Sources */,
+				641A8A5F2BA74C3B00D91241 /* CharacterCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
