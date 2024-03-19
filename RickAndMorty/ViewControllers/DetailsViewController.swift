@@ -14,4 +14,3 @@ final class DetailsViewController: UIViewController {
         
     }
 }
-

@@ -60,6 +60,11 @@
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="O75-ot-GAx" secondAttribute="height" multiplier="1:1" id="UTZ-Tg-ELt"/>
                                                     </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <integer key="value" value="15"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2kR-EM-xf8">
                                                     <rect key="frame" x="0.0" y="199" width="41.333333333333336" height="27"/>
@@ -68,10 +73,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </stackView>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="FQe-eK-wdv" secondAttribute="trailing" id="Qaq-RI-SUD"/>
                                         <constraint firstItem="FQe-eK-wdv" firstAttribute="leading" secondItem="TOS-LY-Khh" secondAttribute="leading" id="hf5-3B-PIJ"/>
                                         <constraint firstItem="FQe-eK-wdv" firstAttribute="top" secondItem="TOS-LY-Khh" secondAttribute="top" id="iy7-O5-r51"/>
                                         <constraint firstAttribute="bottom" secondItem="FQe-eK-wdv" secondAttribute="bottom" id="xO9-kt-eqK"/>

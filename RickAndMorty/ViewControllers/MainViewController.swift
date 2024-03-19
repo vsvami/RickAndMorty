@@ -10,11 +10,13 @@ import UIKit
 final class MainViewController: UICollectionViewController {
     
     // MARK: - IB Outlets
-    
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
-    // MARK: - View Life Cycles
+    // MARK: - Private Properties
+    private var characterResults: [Results] = []
+    private let networkManager = NetworkManager.shared
     
+    // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.startAnimating()
@@ -22,13 +24,17 @@ final class MainViewController: UICollectionViewController {
         fetchCharacters()
     }
     
-    // MARK: - UICollectionViewDataSource
+    // MARK: - Navigation
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        let detailsVC = segue.destination as? DetailsViewController
+//    }
     
+    // MARK: - UICollectionViewDataSource
     override func collectionView(
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        15
+        characterResults.count
     }
     
     override func collectionView(
@@ -40,11 +46,13 @@ final class MainViewController: UICollectionViewController {
             for: indexPath
         )
         guard let cell = cell as? CharacterCell else { return UICollectionViewCell() }
+        let character = characterResults[indexPath.item]
+        cell.configure(with: character)
+        
         return cell
     }
     
     // MARK: - Private Methods
-    
     private func showAlert(with title: String, message: String) {
         let alert = UIAlertController(
             title: title,
@@ -54,34 +62,6 @@ final class MainViewController: UICollectionViewController {
         let alertAction = UIAlertAction(title: "Ok", style: .default)
         alert.addAction(alertAction)
         present(alert, animated: true)
-    }
-    
-    private func fetchCharacters() {
-        URLSession.shared.dataTask(
-            with: URL(string: "https://rickandmortyapi.com/api/character")!) {
-                [ unowned self] data, _, error in
-                guard let data else {
-                    print(error?.localizedDescription ?? "No error description")
-                    return
-                }
-                do {
-                    let characters = try JSONDecoder().decode(Character.self, from: data)
-                    DispatchQueue.main.async {
-                        self.showAlert(
-                            with: "Success",
-                            message: "You can see the results in the Debug area"
-                        )
-                        self.activityIndicator.stopAnimating()
-                    }
-                    print(characters)
-                } catch {
-                    showAlert(
-                        with: "Failed",
-                        message: "You can see error in the Debug area"
-                    )
-                    print(error.localizedDescription)
-                }
-            }.resume()
     }
 }
 
@@ -94,7 +74,27 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
     ) -> CGSize {
         CGSize(
             width: (view.window?.windowScene?.screen.bounds.width ?? 100) / 2 - 30,
-            height: 230
+            height: 190
         )
+    }
+}
+
+// MARK: - Networking
+extension MainViewController {
+    private func fetchCharacters() {
+        networkManager.fetchCharacters(from: Link.characters.url) { [ unowned self ] characters in
+            switch characters {
+            case .success(let characters):
+                characterResults = characters.results
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                    self.activityIndicator.stopAnimating()
+                    self.showAlert(with: "Success", message: "You can see the results in the Debug area")
+                }
+            case .failure(let error):
+                print(error)
+                showAlert(with: "Failed", message: "You can see error in the Debug area")
+            }
+        }
     }
 }
