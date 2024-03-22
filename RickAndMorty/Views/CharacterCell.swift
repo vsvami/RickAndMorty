@@ -7,11 +7,17 @@
 
 import UIKit
 
-final class CharacterCell: UICollectionViewCell {
+final class CharacterCell: UITableViewCell {
     
     // MARK: - IB Outlets
-    @IBOutlet var characterImage: UIImageView!
     @IBOutlet var characterLabel: UILabel!
+    @IBOutlet var characterImageView: UIImageView! {
+        didSet {
+//            characterImageView.contentMode = .scaleAspectFit
+//            characterImageView.clipsToBounds = true
+            characterImageView.layer.cornerRadius = 15
+        }
+    }
     
     // MARK: - Private Properties
     private let networkManager = NetworkManager.shared
@@ -23,7 +29,7 @@ final class CharacterCell: UICollectionViewCell {
         networkManager.fetchImage(from: results.image) { [ unowned self ] result in
             switch result {
             case .success(let imageData):
-                characterImage.image = UIImage(data: imageData)
+                characterImageView.image = UIImage(data: imageData)
             case .failure(let error):
                 print(error)
             }
