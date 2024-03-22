@@ -23,7 +23,7 @@ final class CharacterCell: UITableViewCell {
     private let networkManager = NetworkManager.shared
     
     // MARK: - Public Methods
-    func configure(with results: Results) {
+    func configure(with results: Character) {
         characterLabel.text = results.name
         
         networkManager.fetchImage(from: results.image) { [ unowned self ] result in

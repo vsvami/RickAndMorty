@@ -12,7 +12,7 @@ struct Location: Decodable {
     let url: String
 }
 
-struct Results: Decodable {
+struct Character: Decodable {
     let id: Int
     let name: String
     let status: String
@@ -27,6 +27,25 @@ struct Results: Decodable {
     let created: String
 }
 
-struct Characters: Decodable {
-    let results: [Results]
+struct Info: Decodable {
+    let pages: Int
+    let next: URL?
+    let prev: URL?
+}
+
+struct RickAndMorty: Decodable {
+    let info: Info
+    let results: [Character]
+}
+
+struct Episode: Decodable {
+    let name: String
+    let date: String
+    let episode: String
+    let characters: [URL]
+    
+    enum CodingKeys: String, CodingKey {
+        case name, episode, characters
+        case date = "air_date"
+    }
 }

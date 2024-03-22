@@ -47,7 +47,7 @@ final class NetworkManager {
         }
     }
     
-    func fetchCharacters(from url: URL, completion: @escaping(Result<Characters, NetworkError>) -> Void) {
+    func fetchCharacters(from url: URL, completion: @escaping(Result<RickAndMorty, NetworkError>) -> Void) {
         URLSession.shared.dataTask(with: url) { data, _, error in
             guard let data else {
                 print(error?.localizedDescription ?? "No error description")
@@ -56,7 +56,7 @@ final class NetworkManager {
             }
             
             do {
-                let characters = try JSONDecoder().decode(Characters.self, from: data)
+                let characters = try JSONDecoder().decode(RickAndMorty.self, from: data)
                 completion(.success(characters))
                 DispatchQueue.main.async {
                     completion(.success(characters))

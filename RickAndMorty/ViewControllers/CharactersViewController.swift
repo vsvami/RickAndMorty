@@ -14,7 +14,7 @@ final class CharactersViewController: UIViewController {
     @IBOutlet var charactersTableView: UITableView!
     
     // MARK: - Private Properties
-    private var characterResults: [Results] = []
+    private var characterResults: [Character] = []
     private let networkManager = NetworkManager.shared
     
     // MARK: - View Life Cycles
