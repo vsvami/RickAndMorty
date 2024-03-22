@@ -74,7 +74,7 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
     ) -> CGSize {
         CGSize(
             width: (view.window?.windowScene?.screen.bounds.width ?? 100) / 2 - 30,
-            height: 190
+            height: 200
         )
     }
 }
