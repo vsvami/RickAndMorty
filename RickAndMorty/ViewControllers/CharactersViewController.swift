@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 final class CharactersViewController: UIViewController {
     
@@ -25,11 +26,6 @@ final class CharactersViewController: UIViewController {
         fetchCharacters()
     }
     
-    // MARK: - Navigation
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        let detailsVC = segue.destination as? DetailsViewController
-//    }
-    
     // MARK: - Private Methods
     private func showAlert(with title: String, message: String) {
         let alert = UIAlertController(
@@ -45,22 +41,76 @@ final class CharactersViewController: UIViewController {
 
 // MARK: - Networking
 extension CharactersViewController {
+    
     private func fetchCharacters() {
-        networkManager.fetchCharacters(from: Link.characters.url) { [ unowned self ] characters in
-            switch characters {
-            case .success(let characters):
-                characterResults = characters.results
-                DispatchQueue.main.async {
-                    self.charactersTableView.reloadData()
-                    self.activityIndicator.stopAnimating()
-//                    self.showAlert(with: "Success", message: "You can see the results in the Debug area")
+        AF.request(NetworkManager.APIEndpoint.baseURL.url)
+            .validate()
+            .responseJSON { [unowned self] dataResponse in
+                switch dataResponse.result {
+                case .success(let value):
+                    guard let allCharacters = value as? [String: Any] else { return }
+//                    print(allCharacters)
+                    
+                    for (key, value) in allCharacters {
+                        guard let value = value as? [String: Any] else { return }
+                        if key == "info" {
+                            let info = Info(
+                                pages: value["pages"] as? Int ?? 0,
+                                next: value["next"] as? String ?? "",
+                                prev: value["prev"] as? String ?? ""
+                            )
+                            print(info)
+                        }
+                        
+                        // И тут я запутался совсем(
+        
+                        if key == "results" {
+                            for _ in value {
+                                let results = Character(
+                                    id: value["id"] as? Int ?? 0,
+                                    name: value["name"] as? String ?? "",
+                                    status: value["status"] as? String ?? "",
+                                    species: value["species"] as? String ?? "",
+                                    type: value["type"] as? String ?? "",
+                                    gender: value["gender"] as? String ?? "",
+                                    origin: value["origin"] as? Location ?? Location(name: "", url: ""), // Как быть с этими типами?
+                                    location: value["location"] as? Location ?? Location(name: "", url: ""),
+                                    image: value["image"] as? String ?? "",
+                                    episode: value["episode"] as? [String] ?? [],
+                                    url: value["url"] as? String ?? "",
+                                    created: value["created"] as? String ?? ""
+                                )
+                                
+                                characterResults.append(results)
+                                print(characterResults)
+                            }
+                        }
+                    }
+                    
+                    charactersTableView.reloadData()
+                    activityIndicator.stopAnimating()
+                    
+                case .failure(let error):
+                    showAlert(with: "Failed", message: error.localizedDescription)
                 }
-            case .failure(let error):
-                print(error)
-                showAlert(with: "Failed", message: "You can see error in the Debug area")
             }
-        }
     }
+    
+//    private func fetchCharacters() {
+//        networkManager.fetchCharacters(from: Link.characters.url) { [ unowned self ] characters in
+//            switch characters {
+//            case .success(let characters):
+//                characterResults = characters.results
+//                DispatchQueue.main.async {
+//                    self.charactersTableView.reloadData()
+//                    self.activityIndicator.stopAnimating()
+//                }
+//            case .failure(let error):
+//                print(error)
+//                showAlert(with: "Failed", message: "You can see error in the Debug area")
+//            }
+//        }
+//    }
 }
 
 // MARK: - UITableViewDataSource
@@ -82,7 +132,6 @@ extension CharactersViewController: UITableViewDataSource {
         return cell
     }
 }
-
 
 // MARK: - UITableViewDelegate
 extension CharactersViewController: UITableViewDelegate {
