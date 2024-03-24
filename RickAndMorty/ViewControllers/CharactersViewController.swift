@@ -52,9 +52,9 @@ extension CharactersViewController {
 //                    print(allCharacters)
                     
                     for (key, value) in allCharacters {
-                        guard let value = value as? [String: Any] else { return }
                         if key == "info" {
-                            let info = Info(
+                            guard let value = value as? [String: Any] else { return }
+                                let info = Info(
                                 pages: value["pages"] as? Int ?? 0,
                                 next: value["next"] as? String ?? "",
                                 prev: value["prev"] as? String ?? ""
@@ -62,23 +62,23 @@ extension CharactersViewController {
                             print(info)
                         }
                         
-                        // И тут я запутался совсем(
-        
                         if key == "results" {
-                            for _ in value {
+                            guard let value = value as? [[String: Any]] else { return }
+
+                            for character in value {
                                 let results = Character(
-                                    id: value["id"] as? Int ?? 0,
-                                    name: value["name"] as? String ?? "",
-                                    status: value["status"] as? String ?? "",
-                                    species: value["species"] as? String ?? "",
-                                    type: value["type"] as? String ?? "",
-                                    gender: value["gender"] as? String ?? "",
-                                    origin: value["origin"] as? Location ?? Location(name: "", url: ""), // Как быть с этими типами?
-                                    location: value["location"] as? Location ?? Location(name: "", url: ""),
-                                    image: value["image"] as? String ?? "",
-                                    episode: value["episode"] as? [String] ?? [],
-                                    url: value["url"] as? String ?? "",
-                                    created: value["created"] as? String ?? ""
+                                    id: character["id"] as? Int ?? 0,
+                                    name: character["name"] as? String ?? "",
+                                    status: character["status"] as? String ?? "",
+                                    species: character["species"] as? String ?? "",
+                                    type: character["type"] as? String ?? "",
+                                    gender: character["gender"] as? String ?? "",
+                                    origin: character["origin"] as? Location ?? Location(name: "", url: ""), // Как быть с этими типами?
+                                    location: character["location"] as? Location ?? Location(name: "", url: ""),
+                                    image: character["image"] as? String ?? "",
+                                    episode: character["episode"] as? [String] ?? [],
+                                    url: character["url"] as? String ?? "",
+                                    created: character["created"] as? String ?? ""
                                 )
                                 
                                 characterResults.append(results)
