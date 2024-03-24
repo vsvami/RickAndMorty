@@ -21,16 +21,16 @@ struct Character: Decodable {
     let gender: String
     let origin: Location
     let location: Location
-    let image: URL
-    let episode: [URL]
-    let url: URL
+    let image: String
+    let episode: [String]
+    let url: String
     let created: String
 }
 
 struct Info: Decodable {
     let pages: Int
-    let next: URL?
-    let prev: URL?
+    let next: String?
+    let prev: String?
 }
 
 struct RickAndMorty: Decodable {

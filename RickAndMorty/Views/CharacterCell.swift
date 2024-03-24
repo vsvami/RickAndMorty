@@ -13,8 +13,6 @@ final class CharacterCell: UITableViewCell {
     @IBOutlet var characterLabel: UILabel!
     @IBOutlet var characterImageView: UIImageView! {
         didSet {
-//            characterImageView.contentMode = .scaleAspectFit
-//            characterImageView.clipsToBounds = true
             characterImageView.layer.cornerRadius = 15
         }
     }
@@ -26,13 +24,13 @@ final class CharacterCell: UITableViewCell {
     func configure(with results: Character) {
         characterLabel.text = results.name
         
-        networkManager.fetchImage(from: results.image) { [ unowned self ] result in
-            switch result {
-            case .success(let imageData):
-                characterImageView.image = UIImage(data: imageData)
-            case .failure(let error):
-                print(error)
-            }
-        }
+//        networkManager.fetchImage(from: results.image) { [ unowned self ] result in
+//            switch result {
+//            case .success(let imageData):
+//                characterImageView.image = UIImage(data: imageData)
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
     }
 }
