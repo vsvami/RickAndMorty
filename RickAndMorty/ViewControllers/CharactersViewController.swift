@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Alamofire
 
 final class CharactersViewController: UIViewController {
     
@@ -43,57 +42,19 @@ final class CharactersViewController: UIViewController {
 extension CharactersViewController {
     
     private func fetchCharacters() {
-        AF.request(NetworkManager.APIEndpoint.baseURL.url)
-            .validate()
-            .responseJSON { [unowned self] dataResponse in
-                switch dataResponse.result {
-                case .success(let value):
-                    guard let allCharacters = value as? [String: Any] else { return }
-//                    print(allCharacters)
-                    
-                    for (key, value) in allCharacters {
-                        if key == "info" {
-                            guard let value = value as? [String: Any] else { return }
-                                let info = Info(
-                                pages: value["pages"] as? Int ?? 0,
-                                next: value["next"] as? String ?? "",
-                                prev: value["prev"] as? String ?? ""
-                            )
-                            print(info)
-                        }
-                        
-                        if key == "results" {
-                            guard let value = value as? [[String: Any]] else { return }
-
-                            for character in value {
-                                let results = Character(
-                                    id: character["id"] as? Int ?? 0,
-                                    name: character["name"] as? String ?? "",
-                                    status: character["status"] as? String ?? "",
-                                    species: character["species"] as? String ?? "",
-                                    type: character["type"] as? String ?? "",
-                                    gender: character["gender"] as? String ?? "",
-                                    origin: character["origin"] as? Location ?? Location(name: "", url: ""), // Как быть с этими типами?
-                                    location: character["location"] as? Location ?? Location(name: "", url: ""),
-                                    image: character["image"] as? String ?? "",
-                                    episode: character["episode"] as? [String] ?? [],
-                                    url: character["url"] as? String ?? "",
-                                    created: character["created"] as? String ?? ""
-                                )
-                                
-                                characterResults.append(results)
-                                print(characterResults)
-                            }
-                        }
-                    }
-                    
-                    charactersTableView.reloadData()
-                    activityIndicator.stopAnimating()
-                    
-                case .failure(let error):
-                    showAlert(with: "Failed", message: error.localizedDescription)
-                }
+        networkManager.fetchCharacters(
+            from: NetworkManager.APIEndpoint.baseURL.url
+        ) { [unowned self] result in
+            switch result {
+            case .success(let character):
+                characterResults = character.results
+                
+                charactersTableView.reloadData()
+                activityIndicator.stopAnimating()
+            case .failure(let error):
+                showAlert(with: "Failure", message: error.localizedDescription)
             }
+        }
     }
     
 //    private func fetchCharacters() {
