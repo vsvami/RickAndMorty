@@ -24,6 +24,15 @@ final class CharacterCell: UITableViewCell {
     func configure(with results: Character) {
         characterLabel.text = results.name
         
+        networkManager.fetchData(from: results.image) { [unowned self] result in
+            switch result {
+            case .success(let imageData):
+                characterImageView.image = UIImage(data: imageData)
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
 //        networkManager.fetchImage(from: results.image) { [ unowned self ] result in
 //            switch result {
 //            case .success(let imageData):
