@@ -35,7 +35,7 @@ final class CharacterDetailsViewController: UIViewController {
         statusLabel.text = character.status
         speciesLabel.text = character.species
         genderLabel.text = character.gender
-        originLabel.text = character.location.name
+        originLabel.text = character.origin.name
         locationLabel.text = character.location.name
         
         fetchImage()
