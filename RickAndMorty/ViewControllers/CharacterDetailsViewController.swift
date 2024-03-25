@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CharacterDetailsViewController: UIViewController {
+final class CharacterDetailsViewController: UIViewController {
 
     // MARK: - IBOutlets
     @IBOutlet var characterImageView: UIImageView!
@@ -39,6 +39,12 @@ class CharacterDetailsViewController: UIViewController {
         locationLabel.text = character.location.name
         
         fetchImage()
+    }
+    
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let episodesVC = segue.destination as? EpisodesViewController else { return }
+        episodesVC.character = character
     }
     
     // MARK: - Private Methods
