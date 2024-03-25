@@ -12,6 +12,8 @@ final class CharactersViewController: UIViewController {
     // MARK: - IB Outlets
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var charactersTableView: UITableView!
+    @IBOutlet var prevButton: UIBarButtonItem!
+    @IBOutlet var nextButton: UIBarButtonItem!
     
     // MARK: - Private Properties
     private var characterResults: [Character] = []

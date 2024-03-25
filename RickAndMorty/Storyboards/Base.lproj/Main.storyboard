@@ -150,6 +150,8 @@
                     <connections>
                         <outlet property="activityIndicator" destination="hlE-1a-CNr" id="bUl-4h-zWM"/>
                         <outlet property="charactersTableView" destination="foT-DU-zsr" id="uVF-Vu-Bf6"/>
+                        <outlet property="nextButton" destination="tYm-Zg-Nw0" id="8KB-oF-GV7"/>
+                        <outlet property="prevButton" destination="C4I-Rp-jAW" id="BO8-3I-bbs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6jZ-tH-Y3C" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -307,11 +309,18 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="U9s-fx-ELU">
-                        <barButtonItem key="rightBarButtonItem" title="EPISODES" id="znj-6w-i6e">
-                            <connections>
-                                <segue destination="uTj-eP-SnO" kind="show" id="c5s-u0-rNJ"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="EPISODES" image="play.rectangle.on.rectangle" catalog="system" id="znj-6w-i6e">
+                                <connections>
+                                    <segue destination="uTj-eP-SnO" kind="show" id="c5s-u0-rNJ"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Item" image="globe.americas.fill" catalog="system" id="55Y-Mw-84z">
+                                <connections>
+                                    <segue destination="pgr-at-WgL" kind="show" id="Vfh-Vb-tQF"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -386,17 +395,11 @@
                             <constraint firstItem="x5d-w3-d83" firstAttribute="trailing" secondItem="DAz-DS-FW5" secondAttribute="trailing" id="idG-WL-582"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="EPISODES" id="AY3-qa-8QX">
-                        <barButtonItem key="rightBarButtonItem" title="LOCATIONS" id="hNt-Tr-ptL">
-                            <connections>
-                                <segue destination="pgr-at-WgL" kind="show" id="Vy4-pH-0lu"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="EPISODES" id="AY3-qa-8QX"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vu4-Jw-fGZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="854" y="11"/>
+            <point key="canvasLocation" x="911" y="435"/>
         </scene>
         <!--Earth-->
         <scene sceneID="GMC-O0-4eD">
@@ -572,7 +575,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="atr-hl-29W" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2429" y="-239"/>
+            <point key="canvasLocation" x="1689" y="-239"/>
         </scene>
         <!--LOCATIONS-->
         <scene sceneID="77p-Zc-jaM">
@@ -646,7 +649,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lpL-D6-aRF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1690" y="-239"/>
+            <point key="canvasLocation" x="911" y="-239"/>
         </scene>
         <!--S01E01-->
         <scene sceneID="AuK-gx-ULK">
@@ -809,6 +812,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="globe.americas.fill" catalog="system" width="128" height="123"/>
         <image name="imgCharacters" width="2220" height="1866"/>
         <image name="imgCharacters1" width="234" height="683"/>
         <image name="imgDetChar" width="2123" height="2914"/>
@@ -820,6 +824,7 @@
         <image name="imgEpisodes1" width="1822" height="2832"/>
         <image name="imgLocations" width="700" height="684"/>
         <image name="imgLocations1" width="3024" height="1701"/>
+        <image name="play.rectangle.on.rectangle" catalog="system" width="128" height="98"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
