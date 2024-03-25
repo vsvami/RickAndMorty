@@ -17,6 +17,7 @@ final class CharactersViewController: UIViewController {
     
     // MARK: - Private Properties
     private var characterResults: [Character] = []
+//    private var rickAndMorty: RickAndMorty?
     private let networkManager = NetworkManager.shared
     
     // MARK: - View Life Cycles
@@ -24,8 +25,28 @@ final class CharactersViewController: UIViewController {
         super.viewDidLoad()
         activityIndicator.startAnimating()
         activityIndicator.hidesWhenStopped = true
+        
+        setupNavigationBar()
+        
         fetchCharacters()
+        
+        
     }
+    
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let indexPath = charactersTableView.indexPathForSelectedRow else { return }
+        let character = characterResults[indexPath.row]
+        
+        guard let detailsVC = segue.destination as? CharacterDetailsViewController else { return }
+        detailsVC.character = character
+    }
+    
+    // MARK: - IB Actions
+    @IBAction func updateData(_ sender: UIBarButtonItem) {
+        
+    }
+    
     
     // MARK: - Private Methods
     private func showAlert(with title: String, message: String) {
@@ -37,6 +58,13 @@ final class CharactersViewController: UIViewController {
         let alertAction = UIAlertAction(title: "Ok", style: .default)
         alert.addAction(alertAction)
         present(alert, animated: true)
+    }
+    
+    private func setupNavigationBar() {
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.systemGray]
+        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.systemGray]
+        navigationController?.navigationBar.standardAppearance = navBarAppearance
     }
 }
 
@@ -50,6 +78,7 @@ extension CharactersViewController {
             switch result {
             case .success(let character):
                 characterResults = character.results
+//                rickAndMorty = character
                 
                 charactersTableView.reloadData()
                 activityIndicator.stopAnimating()
@@ -80,6 +109,7 @@ extension CharactersViewController {
 extension CharactersViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         characterResults.count
+//        rickAndMorty?.results.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -90,6 +120,7 @@ extension CharactersViewController: UITableViewDataSource {
         )
         guard let cell = cell as? CharacterCell else { return UITableViewCell() }
         let character = characterResults[indexPath.row]
+//        let character = rickAndMorty?.results[indexPath.row]
         cell.configure(with: character)
         
         return cell
