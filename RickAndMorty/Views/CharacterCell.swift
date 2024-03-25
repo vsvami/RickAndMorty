@@ -21,7 +21,8 @@ final class CharacterCell: UITableViewCell {
     private let networkManager = NetworkManager.shared
     
     // MARK: - Public Methods
-    func configure(with results: Character) {
+    func configure(with results: Character?) {
+        guard let results else { return }
         characterLabel.text = results.name
         
         networkManager.fetchData(from: results.image) { [unowned self] result in
@@ -32,14 +33,5 @@ final class CharacterCell: UITableViewCell {
                 print(error)
             }
         }
-        
-//        networkManager.fetchImage(from: results.image) { [ unowned self ] result in
-//            switch result {
-//            case .success(let imageData):
-//                characterImageView.image = UIImage(data: imageData)
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
     }
 }

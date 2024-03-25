@@ -8,12 +8,6 @@
 import Foundation
 import Alamofire
 
-//enum NetworkError: Error {
-//    case invalidURL
-//    case noData
-//    case decodingError
-//}
-
 final class NetworkManager {
     static let shared = NetworkManager()
     
@@ -30,23 +24,8 @@ final class NetworkManager {
                 switch dataResponse.result {
                 case .success(let value):
                     guard let allCharacters = value as? [String: Any] else { return }
-                    
-                    
-                    var info: Info! // допустимо ли так сделать?
-                    var characterResults: [Character]!
-                    
-                    for (key, value) in allCharacters {
-                        if key == "info" {
-                            info = Info.getInfo(from: value)
-                        }
-                        if key == "results" {
-                            characterResults = Character.getCharacters(from: value)
-                        }
-                    }
-                    
-                    let rickAndMorty = RickAndMorty(info: info, results: characterResults)
+                    let rickAndMorty = RickAndMorty(characters: allCharacters)
                     completion(.success(rickAndMorty))
-                    
                 case .failure(let error):
                     print(error)
                     completion(.failure(error ))
@@ -67,38 +46,6 @@ final class NetworkManager {
                 }
             }
     }
-    
-//    func fetchImage(from url: URL, completion: @escaping(Result<Data, NetworkError>) -> Void) {
-//        DispatchQueue.global().async {
-//            guard let imageData = try? Data(contentsOf: url) else {
-//                completion(.failure(.noData))
-//                return
-//            }
-//            DispatchQueue.main.async {
-//                completion(.success(imageData))
-//            }
-//        }
-//    }
-//    
-//    func fetchCharacters(from url: URL, completion: @escaping(Result<RickAndMorty, NetworkError>) -> Void) {
-//        URLSession.shared.dataTask(with: url) { data, _, error in
-//            guard let data else {
-//                print(error?.localizedDescription ?? "No error description")
-//                completion(.failure(.noData))
-//                return
-//            }
-//            
-//            do {
-//                let characters = try JSONDecoder().decode(RickAndMorty.self, from: data)
-//                completion(.success(characters))
-//                DispatchQueue.main.async {
-//                    completion(.success(characters))
-//                }
-//            } catch {
-//                completion(.failure(.decodingError))
-//            }
-//        }.resume()
-//    }
 }
 
 // MARK: - APIEndpoint

@@ -16,8 +16,7 @@ final class CharactersViewController: UIViewController {
     @IBOutlet var nextButton: UIBarButtonItem!
     
     // MARK: - Private Properties
-    private var characterResults: [Character] = []
-//    private var rickAndMorty: RickAndMorty?
+    private var rickAndMorty: RickAndMorty?
     private let networkManager = NetworkManager.shared
     
     // MARK: - View Life Cycles
@@ -29,15 +28,12 @@ final class CharactersViewController: UIViewController {
         setupNavigationBar()
         
         fetchCharacters()
-        
-        
     }
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let indexPath = charactersTableView.indexPathForSelectedRow else { return }
-        let character = characterResults[indexPath.row]
-        
+        let character = rickAndMorty?.results[indexPath.row]
         guard let detailsVC = segue.destination as? CharacterDetailsViewController else { return }
         detailsVC.character = character
     }
@@ -70,16 +66,13 @@ final class CharactersViewController: UIViewController {
 
 // MARK: - Networking
 extension CharactersViewController {
-    
     private func fetchCharacters() {
         networkManager.fetchCharacters(
             from: NetworkManager.APIEndpoint.baseURL.url
         ) { [unowned self] result in
             switch result {
-            case .success(let character):
-                characterResults = character.results
-//                rickAndMorty = character
-                
+            case .success(let characters):
+                rickAndMorty = characters
                 charactersTableView.reloadData()
                 activityIndicator.stopAnimating()
             case .failure(let error):
@@ -87,42 +80,22 @@ extension CharactersViewController {
             }
         }
     }
-    
-//    private func fetchCharacters() {
-//        networkManager.fetchCharacters(from: Link.characters.url) { [ unowned self ] characters in
-//            switch characters {
-//            case .success(let characters):
-//                characterResults = characters.results
-//                DispatchQueue.main.async {
-//                    self.charactersTableView.reloadData()
-//                    self.activityIndicator.stopAnimating()
-//                }
-//            case .failure(let error):
-//                print(error)
-//                showAlert(with: "Failed", message: "You can see error in the Debug area")
-//            }
-//        }
-//    }
 }
 
 // MARK: - UITableViewDataSource
 extension CharactersViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        characterResults.count
-//        rickAndMorty?.results.count ?? 0
+        rickAndMorty?.results.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(
             withIdentifier: "characterCell",
             for: indexPath
         )
         guard let cell = cell as? CharacterCell else { return UITableViewCell() }
-        let character = characterResults[indexPath.row]
-//        let character = rickAndMorty?.results[indexPath.row]
+        let character = rickAndMorty?.results[indexPath.row]
         cell.configure(with: character)
-        
         return cell
     }
 }
@@ -136,5 +109,4 @@ extension CharactersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         100
     }
-    
 }

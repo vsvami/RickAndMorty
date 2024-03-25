@@ -7,13 +7,30 @@
 
 import Foundation
 
-struct Location: Decodable {
+struct Location {
     let name: String
     let url: String
+    
+    init(locationDetails: [String: String]) {
+        name = locationDetails["name"] ?? ""
+        url = locationDetails["url"] ?? ""
+    }
 }
 
-struct Character: Decodable {
-    let id: Int
+struct Episode {
+    let name: String
+    let date: String
+    let episode: String
+    let characters: [String]
+    
+//    enum CodingKeys: String, CodingKey {
+//        case name, episode, characters
+//        case date = "air_date"
+//    }
+}
+
+struct Character {
+//    let id: Int
     let name: String
     let status: String
     let species: String
@@ -23,43 +40,33 @@ struct Character: Decodable {
     let location: Location
     let image: String
     let episode: [String]
-    let url: String
-    let created: String
-    
-//    init(id: Int, name: String, status: String, species: String, type: String, gender: String, origin: Location, location: Location, image: String, episode: [String], url: String, created: String) {
-//        self.id = id
-//        self.name = name
-//        self.status = status
-//        self.species = species
-//        self.type = type
-//        self.gender = gender
-//        self.origin = origin
-//        self.location = location
-//        self.image = image
-//        self.episode = episode
-//        self.url = url
-//        self.created = created
-//    }
-    
-    init(character: [String: Any]) {
-        id = character["id"] as? Int ?? 0
-        name = character["name"] as? String ?? ""
-        status = character["status"] as? String ?? ""
-        species = character["species"] as? String ?? ""
-        type = character["type"] as? String ?? ""
-        gender = character["gender"] as? String ?? ""
-        origin = character["origin"] as? Location ?? Location(name: "", url: "") // Как быть с этими типами?
-        location = character["location"] as? Location ?? Location(name: "", url: "")
-        image = character["image"] as? String ?? ""
-        episode = character["episode"] as? [String] ?? []
-        url = character["url"] as? String ?? ""
-        created = character["created"] as? String ?? ""
+//    let url: String
+//    let created: String
+
+    init(characterDetails: [String: Any]) {
+//        id = characterDetails["id"] as? Int ?? 0
+        name = characterDetails["name"] as? String ?? ""
+        status = characterDetails["status"] as? String ?? ""
+        species = characterDetails["species"] as? String ?? ""
+        type = characterDetails["type"] as? String ?? ""
+        gender = characterDetails["gender"] as? String ?? ""
+        
+        let originDetails = characterDetails["origin"] as? [String: String] ?? [:]
+        origin = Location(locationDetails: originDetails)
+        
+        let locationDetails = characterDetails["location"] as? [String: String] ?? [:]
+        location = Location(locationDetails: locationDetails)
+        
+        image = characterDetails["image"] as? String ?? ""
+        
+        episode = characterDetails["episode"] as? [String] ?? []
+//        url = characterDetails["url"] as? String ?? ""
+//        created = characterDetails["created"] as? String ?? ""
     }
     
     static func getCharacters(from value: Any) -> [Character] {
-        guard let value = value as? [[String: Any]] else { return [] }
-        
-        return value.map { Character(character: $0) }
+        guard let results = value as? [[String: Any]] else { return [] }
+        return results.map { Character(characterDetails: $0) }
 //        var characterResults: [Character] = []
 //        
 //        for character in value {
@@ -71,7 +78,7 @@ struct Character: Decodable {
     }
 }
 
-struct Info: Decodable {
+struct Info {
     let pages: Int
     let next: String?
     let prev: String?
@@ -92,24 +99,19 @@ struct Info: Decodable {
         guard let value = value as? [String: Any] else {
             return Info(pages: 0, next: "", prev: "")
         }
-        let info = Info(value: value)
-        return info
+        return Info(value: value)
     }
 }
 
-struct RickAndMorty: Decodable {
+struct RickAndMorty {
     let info: Info
     let results: [Character]
-}
-
-struct Episode: Decodable {
-    let name: String
-    let date: String
-    let episode: String
-    let characters: [URL]
     
-    enum CodingKeys: String, CodingKey {
-        case name, episode, characters
-        case date = "air_date"
+    init(characters: [String: Any]) {
+        let infoDetails = characters["info"] as? [String: Any] ?? [:]
+        info = Info.getInfo(from: infoDetails)
+        
+        let charactersDetails = characters["results"] as? [[String: Any]] ?? [[:]]
+        results = Character.getCharacters(from: charactersDetails)
     }
 }
